@@ -1,0 +1,66 @@
+﻿@model DAL.Entities.Department
+@{
+    ViewBag.Title = "Create Departement";
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- Validation Plugin Js -->
+
+<script>
+    if (@ViewBag.Success == 1) {
+        swal("Saved Success!", "You clicked the button!", "success").then(function () {
+            $(".A input").val("");
+        }).then(function () {
+            window.location = "/Department/Create";
+        });
+    }
+</script>
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Department</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Department</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- Horizontal Form -->
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Create Department</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" asp-controller="Department" asp-action="Create">
+        <div class="card-body">
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" asp-for="Name" class="form-control" id="inputEmail3" placeholder="Enter department name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer" style="text-align:center">
+           
+            <button onclick="history.back()" class="btn btn-secondary">
+                <i class="fas fa-angle-double-left"></i> Back
+            </button>
+            <button type="submit" class="btn btn-info">Create</button>
+        </div>
+        <!-- /.card-footer -->
+    </form>
+</div>
+<!-- /.card -->
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

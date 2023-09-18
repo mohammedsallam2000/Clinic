@@ -1,4 +1,23 @@
+using Microsoft.EntityFrameworkCore;
+using DAL.Database;
+using BLL.Interface;
+using BLL.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+
+// Enhancement ConnectionString
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseSqlServer(connectionString));
+
+
+// Add Scoped
+builder.Services.AddScoped<IDepartmentRep, DepartmentRep>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
