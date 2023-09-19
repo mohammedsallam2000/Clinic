@@ -1,0 +1,176 @@
+﻿@model BLL.Models.DoctorViewModel
+@{
+    ViewBag.Title = "Edit Doctor";
+}
+
+@inject BLL.Interface.IDepartmentRep Dep
+@inject BLL.Interface.IShiftRep shift
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- Validation Plugin Js -->
+
+<script>
+    if (@ViewBag.Success == 1) {
+        swal("Edited Success!", "You clicked the button!", "success").then(function () {
+            $(".A input").val("");
+        }).then(function () {
+            window.location = "/Doctor/Edit";
+        });
+    }
+</script>
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Doctor</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Doctor</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- Horizontal Form -->
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Edit Doctor</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" asp-controller="Doctor" asp-action="Edit" enctype="multipart/form-data">
+       
+        <div class="card-body">
+            <!--Name-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" asp-for="Name" class="form-control" id="inputEmail3" placeholder="Enter Name" >
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <!--SSN-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">SSN</label>
+                <div class="col-sm-10">
+                    <input type="number" asp-for="SSN" class="form-control" id="inputEmail3" placeholder="Enter SSN">
+                    <span asp-validation-for="SSN" class="text-danger"></span>
+                </div>
+            </div>
+            <!--Address-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Address</label>
+                <div class="col-sm-10">
+                    <input type="text" asp-for="Address" class="form-control" id="inputEmail3" placeholder="Enter Address">
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!--BirthDate-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">BirthDate</label>
+                <div class="col-sm-10">
+                    <input type="date" asp-for="BirthDate" class="form-control" id="inputEmail3" placeholder="Enter BirthDate">
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+            </div>
+            <!--Phone-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Phone Number</label>
+                <div class="col-sm-10">
+                    <input type="number" asp-for="Phone" class="form-control" id="inputEmail3" placeholder="Enter Phone Number">
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+            <!--Gender-->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">
+                    Gender
+                </label>
+                <div class="col-sm-10">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="flat " value="male" checked name="Gender" />
+                            male
+                        </label>
+                    </div>
+                    <div class="radio mt-1">
+                        <label>
+                            <input type="radio" class="flat" value="fmale" name="Gender" />
+                            Fmale
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!--Image-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Image</label>
+                <div class="col-sm-10">
+                    <input type="file" asp-for="PhotoUrl" class="form-control" id="Image">
+                    <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+                </div>
+            </div>
+            <!--Department-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Department</label>
+                <div class="col-sm-10">
+                    <select class="form-select form-control form-control show-tick input"
+                            asp-for="DepartmentId" placeholder="Department">
+                        <option>- Departments -</option>
+                        @foreach (var item in Dep.GetAll())
+                        {
+                            <option value="@item.DepartmentId">@item.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!--Shifts-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Shifts</label>
+                <div class="col-sm-10">
+                    <select class="form-select form-control form-control show-tick input"
+                            asp-for="ShiftId" placeholder="Department">
+                        <option>- Shifts -</option>
+                        @foreach (var item in shift.GetAll())
+                        {
+                            <option value="@item.Id">
+                                @item.StartShift.ToString("t") - @item.EndShift.ToString("t")
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="ShiftId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!--Salary-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Salary</label>
+                <div class="col-sm-10">
+                    <input type="number" asp-for="Salary" class="form-control" id="inputEmail3" placeholder="Enter department name">
+                    <span asp-validation-for="Salary" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer" style="text-align:center">
+
+            <button onclick="history.back()" class="btn btn-secondary">
+                <i class="fas fa-angle-double-left"></i> Back
+            </button>
+            <button type="submit" class="btn btn-info">Edit</button>
+        </div>
+        <!-- /.card-footer -->
+    </form>
+</div>
+<!-- /.card -->
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

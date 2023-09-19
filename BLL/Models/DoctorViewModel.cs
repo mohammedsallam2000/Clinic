@@ -15,6 +15,7 @@ namespace BLL.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "Name Is Required")]
         public string Name { get; set; }
+        public string? DepartmentName { get; set; }
 
         [Required(ErrorMessage = "SSN is Required")]
         [MinLength(14, ErrorMessage = "SSN Must Be 14 Number This is less than 14")]
@@ -23,7 +24,7 @@ namespace BLL.Models
         public string SSN { get; set; }
        
         [Required(ErrorMessage = "Phone Is Required")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [Required(ErrorMessage = "Gender Is Required")]
         public string Gender { get; set; }
@@ -39,44 +40,17 @@ namespace BLL.Models
         public bool IsActive { get; set; }
         [Required(ErrorMessage = "Department is Required")]
         public int DepartmentId { get; set; }
-        public int? VacationBalance { get; set; }
-
-        //[Required(ErrorMessage = "Department Name is Required")]
-        public string DepartmentName { get; set; }
 
         [Required(ErrorMessage = "Shift is Required")]
         public int? ShiftId { get; set; }
 
-
-        [Required(ErrorMessage = "Email Required")]
-        [EmailAddress(ErrorMessage = "You Must Enter Valid Email")]
-        [Remote(action: "VerifyEmail", controller: "Users")]
-        public string Email { get; set; }
-
-        [Required(ErrorMessage = "Password Required")]
-        [DataType(DataType.Password)]
-        [MinLength(6, ErrorMessage = "Min Lenth 6")]
-        public string Password { get; set; }
-
-        [Required(ErrorMessage = "Confirm Password Required")]
-        [DataType(DataType.Password)]
-        [MinLength(6, ErrorMessage = "Min Lenth 6")]
-        [Compare("Password", ErrorMessage = "Not Matching")]
-        [Display(Name = "Confirm Password")]
-        public string ConfirmPassword { get; set; }
-
-        //[RegularExpression(@"/.*\.(gif|jpe?g|bmp|png)$/igm")]
-        //[RegularExpression(@"^.*\.(jpg|JPG|gif|GIF|png|PNG)$", ErrorMessage = "Only .gif, .jpg and .png")]
-        public IFormFile PhotoUrl { get; set; }
-        public string Photo { get; set; }
+       public IFormFile? PhotoUrl { get; set; }
+        public string? Photo { get; set; }
 
 
         [Required(ErrorMessage = " Salary Required")]
 
         public double Salary { get; set; }
-        [Required(ErrorMessage = "Shift Prise Required")]
-
-        public double ShiftPrise { get; set; }
 
 
         public class CustomHireDate : ValidationAttribute
