@@ -1,16 +1,17 @@
 ﻿using BLL.Interface;
 using BLL.Models;
+using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
 {
-    public class DoctorController : Controller
+    public class PatientController : Controller
     {
-        private readonly IDoctorRep Doctor;
-        public DoctorController(IDoctorRep Doctor)
+        private readonly IPatientRep Patient;
+        public PatientController(IPatientRep Patient)
         {
 
-            this.Doctor = Doctor;
+            this.Patient = Patient;
         }
 
         public IActionResult Index()
@@ -25,11 +26,11 @@ namespace UI.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(DoctorViewModel doc)
+        public async Task<IActionResult> Create(PatientViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var check = await Doctor.Add(doc);
+                var check = await Patient.Add(model);
                 if (check != 0)
                 {
                     ViewBag.Success = 1;
@@ -44,16 +45,16 @@ namespace UI.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var Data = await Doctor.GetByID(id);
+            var Data = await Patient.GetByID(id);
             return View(Data);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(DoctorViewModel doc)
+        public async Task<IActionResult> Edit(PatientViewModel model)
         {
-            await Doctor.Edit(doc);
-            return RedirectToAction("ViewDoctor", "Doctor", new { id = doc.Id });
+            await Patient.Edit(model);
+            return RedirectToAction("GetAll", "Patient", new { id = model.Id });
         }
-      
+
 
         //public IActionResult Delete(int id)
         //{
@@ -64,30 +65,30 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<JsonResult> Delete(int id)
         {
-            var data = await Doctor.Delete(id);
+            var data = await Patient.Delete(id);
             return Json(data);
         }
 
 
-        public IActionResult GetAllDoctor(int id)
+        public IActionResult GetAll(int id)
         {
-            var DocData = Doctor.GetAll();
+            var DocData = Patient.GetAll();
 
             ViewBag.DoctorNumber = DocData.Count();
-            ViewBag.DoctorList = Doctor.GetAll();
+            ViewBag.DoctorList = Patient.GetAll();
 
             return View();
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var getDoc = await Doctor.GetByID(id);
+            var getDoc = await Patient.GetByID(id);
             return View(getDoc);
         }
         [AcceptVerbs("GET", "POST")]
         public async Task<IActionResult> SSNUssed(string ssn)
         {
-            var Ssn = Doctor.SSNUnUsed(ssn);
+            var Ssn = Patient.SSNUnUsed(ssn);
             if (Ssn == false)
             {
                 return Json($"SSN:  {ssn} is already in use.");
@@ -95,6 +96,5 @@ namespace UI.Controllers
 
             return Json(true);
         }
-
     }
 }

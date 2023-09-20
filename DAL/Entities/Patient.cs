@@ -23,7 +23,5 @@ namespace DAL.Entities
         public string Photo { get; set; }
         public DateTime LogInTime { get; set; }
         public bool IsActive { get; set; }
-        public string Work { get; set; }
-
     }
 }

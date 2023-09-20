@@ -19,6 +19,7 @@ options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IDepartmentRep, DepartmentRep>();
 builder.Services.AddScoped<IShiftRep, ShiftRep>();
 builder.Services.AddScoped<IDoctorRep, DoctorRep>();
+builder.Services.AddScoped<IPatientRep, PatientRep>();
 
 
 // Add services to the container.

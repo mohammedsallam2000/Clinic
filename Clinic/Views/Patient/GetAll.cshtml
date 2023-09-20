@@ -1,21 +1,19 @@
-﻿
-
-@{
-    ViewBag.Title = "Get All Doctors";
+﻿@{
+    ViewBag.Title = "Get All Patients";
 }
 
-@inject BLL.Interface.IDoctorRep Doc
+@inject BLL.Interface.IPatientRep patient
 
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Doctors</h1>
+                <h1 class="m-0">Patients</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">All Doctors</li>
+                    <li class="breadcrumb-item active">All Patients</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,7 +24,7 @@
 
 <div class="card card-info">
     <div class="card-header">
-        <h3 class="card-title">All Doctors</h3>
+        <h3 class="card-title">All Patients</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -35,11 +33,12 @@
                 <tr>
                     <th class="numbers">#</th>
                     <th>Name</th>
-@*                    <th>SSN</th>
-*@                    <th>Address</th>
-@*                    <th>Birhdate</th>
-*@                    <th>Gender</th>
-                    <th>Department</th>
+                                        <th>SSN</th>
+                    
+                    <th>Address</th>
+                    @*                    <th>Birhdate</th>
+                    *@
+                    <th>Gender</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -48,7 +47,7 @@
                 @{
                     int number = 0;
                 }
-                @foreach (var item in Doc.GetAll())
+                @foreach (var item in patient.GetAll())
                 {
                     <tr>
                         <td scope="row" class="numbers">
@@ -57,26 +56,23 @@
                         <td>
                             <p>@item.Name</p>
                         </td>
-                      @*  <td>
-                            <p>@item.SSN</p>
-                        </td>*@
+                          <td>
+                    <p>@item.SSN</p>
+                    </td>
                         <td>
                             <p>@item.Address</p>
                         </td>
-                       @* <td>
-                            <p>@item.BirthDate</p>
-                        </td>*@
+                        @* <td>
+                    <p>@item.BirthDate</p>
+                    </td>*@
                         <td>
                             <p>@item.Gender</p>
                         </td>
                         <td>
-                            <p>@item.DepartmentName</p>
-                        </td>
-                        <td>
-                            <a class="btn btn-primary" title="Details" asp-action="Details" asp-controller="Doctor" asp-route-id="@item.Id">
+                            <a class="btn btn-primary" title="Details" asp-action="Details" asp-controller="Patient" asp-route-id="@item.Id">
                                 Details
                             </a>
-                            <a class="btn btn-info" title="Edit" asp-action="Edit" asp-controller="Doctor" asp-route-id="@item.Id">
+                            <a class="btn btn-info" title="Edit" asp-action="Edit" asp-controller="Patient" asp-route-id="@item.Id">
                                 Edit
                             </a>
                             <a class="btn btn-danger" title="Edit" onclick="Delete(@item.Id)">
@@ -116,7 +112,7 @@
                     $.ajax({
 
                         type: "POST",
-                        url: "/Doctor/Delete",
+                        url: "/Patient/Delete",
                         data: {
                             id: id,
 
