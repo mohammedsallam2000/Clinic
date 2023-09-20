@@ -20,6 +20,7 @@ builder.Services.AddScoped<IDepartmentRep, DepartmentRep>();
 builder.Services.AddScoped<IShiftRep, ShiftRep>();
 builder.Services.AddScoped<IDoctorRep, DoctorRep>();
 builder.Services.AddScoped<IPatientRep, PatientRep>();
+builder.Services.AddScoped<IDashboardRep, DashboardRep>();
 
 
 // Add services to the container.
