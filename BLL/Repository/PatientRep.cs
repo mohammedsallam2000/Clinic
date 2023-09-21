@@ -141,5 +141,29 @@ namespace BLL.Repository
             return true;
         }
         #endregion
+
+
+        #region Get Patient By his SSN
+        public PatientViewModel GetBySSN(string SSN)
+        {
+            // Select Patient by his ssn 
+            var patient = context.Patients.Where(x => x.SSN == SSN)
+                                    .Select(x => new PatientViewModel
+                                    {
+                                        Id = x.PatientId,
+                                        Name = x.Name,
+                                        Address = x.Address,
+                                        BirthDate = x.BirthDate,
+                                        Phone = x.Phone,
+                                        SSN = x.SSN,
+                                        photo = x.Phone,
+                                        Gender = x.Gender,
+                                        LogInTime = x.LogInTime,
+                                        IsActive = x.IsActive
+                                    })
+                                    .FirstOrDefault();
+            return patient;
+        }
+        #endregion
     }
 }

@@ -21,6 +21,7 @@ builder.Services.AddScoped<IShiftRep, ShiftRep>();
 builder.Services.AddScoped<IDoctorRep, DoctorRep>();
 builder.Services.AddScoped<IPatientRep, PatientRep>();
 builder.Services.AddScoped<IDashboardRep, DashboardRep>();
+builder.Services.AddScoped<IAppointmentRep, AppointmentRep>();
 
 
 // Add services to the container.

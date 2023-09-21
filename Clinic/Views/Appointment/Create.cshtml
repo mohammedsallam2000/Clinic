@@ -1,0 +1,248 @@
+﻿@model BLL.Models.AppointmentViewModel
+@{
+    ViewBag.Title = "Create Appointment";
+}
+
+@inject BLL.Interface.IDepartmentRep Dep
+@inject BLL.Interface.IShiftRep shift
+
+@inject BLL.Interface.IPatientRep patient
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- Validation Plugin Js -->
+
+<script>
+    if (@ViewBag.Success == 1) {
+        swal("Created Success!", "You clicked the button!", "success").then(function () {
+            $(".A input").val("");
+        }).then(function () {
+            window.location = "/Appointment/Create";
+        });
+    }
+</script>
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Appointment</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Appointment</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- Horizontal Form -->
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Create Appointment</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" asp-controller="Appointment" asp-action="Create" enctype="multipart/form-data">
+        <div class="card-body">
+            <!--Patient SSN or name-->
+            <input type="hidden" id="btnId" asp-for="PatientId" />
+
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Patient SSN or name</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control show-tick" type="search" list="UserName" id="exampleDataList"
+                           placeholder="Patient name" asp-for="PatientId" />
+                    <datalist id="UserName">
+                        <option value="">- Patient SSN -</option>
+                        @foreach (var item in patient.GetAll())
+                        {
+                            <option value="@item.SSN" />
+                            @item.Name
+                        }
+                    </datalist>
+                    <span class="text-danger" asp-validation-for="PatientId"></span>
+                </div>
+
+            </div>
+            <!--Date-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">DateAndTime</label>
+                <div class="col-sm-10">
+                    <input type="date" asp-for="DateAndTime" class="form-control" id="inputEmail3" placeholder="Enter DateAndTime">
+                    <span asp-validation-for="DateAndTime" class="text-danger"></span>
+                </div>
+                <span class="text-danger" asp-validation-for="DoctorId"></span>
+            </div>
+            <!--Department-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Department</label>
+                <div class="col-sm-10">
+                    <select class="deeee form-select form-control form-control show-tick input"
+                            id="slctDepartment" asp-for="DepartmentId" placeholder="Department">
+                        <option >- Departments -</option>
+                        @foreach (var item in Dep.GetAll())
+                        {
+                            <option value="@item.DepartmentId">@item.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!--Shifts-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Shifts</label>
+                <div class="col-sm-10">
+                    <select class="deeee form-select form-control form-control show-tick input"
+                            id="slctShift" asp-for="ShiftId" placeholder="Department">
+                        <option >- Shifts -</option>
+                        @foreach (var item in shift.GetAll())
+                        {
+                            <option value="@item.Id">
+                                @item.StartShift.ToString("t") - @item.EndShift.ToString("t")
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="ShiftId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!--Doctors-->
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Doctors</label>
+                <div class="col-sm-10">
+                    <select class="form-select form-control form-control show-tick input" placeholder="Doctor"
+                            id="slctDoctor" asp-for="DoctorId">
+                        <option value="">- doctor -</option>
+                    </select>
+                </div>
+                <span class="text-danger" asp-validation-for="DoctorId"></span>
+                </div>
+            </div>
+
+
+            <div>
+        </div>
+
+
+        <!-- /.card-body -->
+        <div class="card-footer" style="text-align:center">
+
+            <button onclick="history.back()" class="btn btn-secondary">
+                <i class="fas fa-angle-double-left"></i> Back
+            </button>
+            <button type="submit" class="btn btn-info">Create</button>
+        </div>
+        <!-- /.card-footer -->
+    </form>
+</div>
+<!-- /.card -->
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+    $("#exampleDataList").change(function () {
+        var patientId = $("#exampleDataList").val();
+
+        $.ajax({
+
+            type: "POST",
+            url: "/Appointment/GetPatintData",
+            data: { SSN: patientId },
+
+            success: function (res) {
+                $("#patientId").val(res.name);
+                $("#patientAddress").val(res.address);
+                $("#patientPhone").val(res.phone);
+                $("#patientDate").val(res.birthDate);
+                $("#btnId").val(res.id);
+            }
+
+        });
+    })
+    $(".deeee").change(function () {
+
+        $("#slctDoctor").empty();
+        $("#slctDoctor").append("<option>Choose Doctor</option>");
+
+        var DeptId = $("#slctDepartment").val();
+
+        var ShiftId = $("#slctShift").val();
+        if (DeptId != 0 && ShiftId != 0) {
+
+            $.ajax({
+
+                type: "POST",
+                url: "/Appointment/GetDoctorByDepartmentID",
+                data: {
+                    DeptId: DeptId,
+                    ShiftId: ShiftId
+                },
+
+                success: function (res) {
+
+                    $.each(res, function (i, e) {
+                        $("#slctDoctor").append("<option value='" + e.id + "'>" + e.name + "</option>");
+                    });
+                }
+
+            });
+        }
+
+
+    });
+
+    $(document).ready(function () {
+        var DeptId = $("#slctDepartment").val();
+        var ShiftId = $("#slctShift").val();
+        if (DeptId != 0 && ShiftId != 0) {
+            $.ajax({
+
+                type: "POST",
+                url: "/Appointment/GetDoctorByDepartmentID",
+                data: {
+                    DeptId: DeptId,
+                    ShiftId: ShiftId
+                },
+
+                success: function (res) {
+
+                    $.each(res, function (i, e) {
+                        $("#slctDoctor").append("<option value='" + e.id + "'>" + e.name + "</option>");
+                    });
+                }
+
+            });
+        }
+    })
+</script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- Validation Plugin Js -->
+
+<script>
+    if (@ViewBag.Success == 1) {
+        //$("#exampleDataList").val("");
+        //$("#slctDepartment").val("-1");
+        //$("#slctShift").val("-1");
+        //$("#time").val("mm/dd/yyy --:-- --");
+        swal("Success", "You clicked the button!", "success").then(function () {
+            $(".A input").val("");
+            $("#exampleDataList").val("");
+            $("#slctDepartment").val("-1");
+            $("#slctShift").val("-1");
+            $("#time").val("mm/dd/yyy --:-- --");
+
+
+
+
+        }).then(function () {
+            window.location = "/Appointment/Create";
+        });
+
+    }
+</script>
+

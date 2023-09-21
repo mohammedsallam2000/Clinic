@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Get All Appointments";
+}
+
+@inject BLL.Interface.IAppointmentRep app
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Appointments</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">All Appointments</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- Horizontal Form -->
+<!-- /.card -->
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">All Appointments</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="numbers">#</th>
+                    <th>Patient Name</th>
+                    <th>Department Name</th>
+                    <th>Date And Time</th>
+                    <th>Doctor Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+                    int number = 0;
+                }
+                @foreach (var item in app.GetAll())
+                {
+                    <tr>
+                        <th scope="row" class="numbers">
+                            <p>@(number += 1)</p>
+                        </th>
+                        <td>
+                            <p class="">@item.PatientName</p>
+                        </td>
+                        <td>
+                            <p class="">@item.DepartmentName</p>
+                        </td>
+                        <td>
+                            <p class="">@item.DateAndTime</p>
+                        </td>
+                        <td>
+                            <p class="">@item.DoctorName</p>
+                        </td>
+                        @*<th scope="col" class="w">
+                    <p>20/10/22</p>
+                    </th>*@
+                        <td scope="col" class="w">
+                            <p class="Status on">Active</p>
+                        </td>
+                        <td>
+                            <a class="btn btn-info" title="Edit" asp-action="Edit" asp-controller="Appointment" asp-route-id="@item.PatientId">
+                                Accept
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+            @*  <tfoot>
+            <tr>
+
+            </tr>
+            </tfoot>*@
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+<!-- /.card -->
+<!-- DataTables  & Plugins -->
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/plugins/jszip/jszip.min.js"></script>
+<script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<script src="~/dist/js/adminlte.min.js"></script>
+<script src="~/dist/js/demo.js"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>

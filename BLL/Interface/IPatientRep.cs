@@ -13,6 +13,7 @@ namespace BLL.Interface
         Task<int> Edit(PatientViewModel model);
         Task<bool> Delete(int id);
         Task<PatientViewModel> GetByID(int id);
+        PatientViewModel GetBySSN(string SSN);
         IEnumerable<PatientViewModel> GetAll();
         bool SSNUnUsed(string ssn);
     }

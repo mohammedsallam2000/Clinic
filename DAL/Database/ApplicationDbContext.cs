@@ -19,7 +19,7 @@ namespace DAL.Database
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Shift> Shifts { get; set; }
 
-        public DbSet<Shift> Appointment { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
 
     }

@@ -36,8 +36,8 @@ namespace BLL.Repository
 
         public int NumberOfAppointments()
         {
-            
-            return 0;
+
+            return db.Appointments.Count();
         }
     }
 }
