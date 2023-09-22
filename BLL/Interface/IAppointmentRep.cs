@@ -1,9 +1,5 @@
 ﻿using BLL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BLL.Interface
 {
@@ -12,7 +8,6 @@ namespace BLL.Interface
         Task<int> Create(AppointmentViewModel model);
         IEnumerable<AppointmentViewModel> GetAll();
         IEnumerable<AppointmentViewModel> GetAllDoctorAppointments(int DoctorId);
-
         IEnumerable<AppointmentViewModel> GetDoctorAppointmentsDateRange(int DoctorId,DateTime StartDate,DateTime EndDate);
     }
 

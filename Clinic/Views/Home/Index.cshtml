@@ -69,3 +69,62 @@
     </div>
 
 </div><!-- /.container-fluid -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+
+<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+
+
+<script src="~/plugins/jquery/jquery.min.js"></script>
+
+<script>
+    const xValues = [];
+    const yValues = [];
+    const barColors =[];
+    $.ajax({
+        type: "Get",
+        url: "/Home/Chart",
+        success: function (res) {
+            var counter = 0;
+            $.each(res, function (i, e) {
+                xValues[counter] = e.doctorName;
+                yValues[counter] = e.patientCount;
+                if (yValues[counter]>=2) {
+                    barColors[counter] = "green";
+
+                }
+                else{
+                    barColors[counter] = "blue";
+
+                }
+                counter = counter + 1;           
+            });
+
+
+            new Chart("myChart", {
+                type: "bar",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: "Graph Number of Patients Per every Doctor"
+                    }
+                }
+            });
+        }
+
+    });
+
+  
+</script>
+

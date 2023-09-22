@@ -127,9 +127,7 @@ namespace BLL.Repository
         }
 
         #endregion
-
-       
-
+     
         #region Check SSN is Uniq or not
         public bool SSNUnUsed(string ssn)
         {
@@ -141,7 +139,6 @@ namespace BLL.Repository
             return true;
         }
         #endregion
-
 
         #region Get Patient By his SSN
         public PatientViewModel GetBySSN(string SSN)

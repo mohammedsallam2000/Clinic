@@ -1,10 +1,7 @@
 ﻿using BLL.Interface;
+using BLL.Models;
 using DAL.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BLL.Repository
 {
@@ -16,28 +13,36 @@ namespace BLL.Repository
             this.db = db;
         }
 
-
         public int NumberOfDoctors()
         {
             return db.Doctors.Count();
-
         }
         public int NumberOfDepartments()
         {
             return db.Departments.Count();
-
         }
 
         public int NumberOfPatients()
         {
             return db.Patients.Count();
-
         }
 
         public int NumberOfAppointments()
         {
-
             return db.Appointments.Count();
+        }
+
+        public IEnumerable<DashboardViewModel> GetAll()
+        {
+            List<DashboardViewModel> Doctors = new List<DashboardViewModel>();
+            foreach (var item in db.Doctors)
+            {
+                DashboardViewModel obj = new DashboardViewModel();
+                obj.DoctorName = item.Name;
+                obj.PatientCount = db.Appointments.Where(x => x.DoctorId == item.DoctorId).Count();
+                Doctors.Add(obj);
+            }
+            return Doctors;
         }
     }
 }

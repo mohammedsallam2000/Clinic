@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,8 @@ namespace BLL.Interface
         int NumberOfDepartments();
         int NumberOfPatients();
         int NumberOfAppointments();
+
+        IEnumerable<DashboardViewModel> GetAll();
+
     }
 }

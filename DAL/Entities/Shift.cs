@@ -12,6 +12,5 @@ namespace DAL.Entities
         public DateTime StartShift { get; set; }
         public DateTime EndShift { get; set; }
         public bool Delete { get; set; }
-
     }
 }

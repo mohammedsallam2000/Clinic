@@ -1,6 +1,5 @@
 ﻿using BLL.Interface;
 using BLL.Models;
-using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers

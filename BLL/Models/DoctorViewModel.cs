@@ -28,7 +28,6 @@ namespace BLL.Models
 
         [Required(ErrorMessage = "Gender Is Required")]
         public string Gender { get; set; }
-
         [Required(ErrorMessage = "BirthDate Is Required")]
         [DataType(DataType.DateTime)]
         [CustomHireDate(ErrorMessage = "Enter Real Birth Date")]
@@ -43,15 +42,12 @@ namespace BLL.Models
 
         [Required(ErrorMessage = "Shift is Required")]
         public int? ShiftId { get; set; }
-
        public IFormFile? PhotoUrl { get; set; }
         public string? Photo { get; set; }
-
         public DateTime AppointmentSartDate { get; set; }
         public DateTime AppointmentEndDate { get; set; }
 
         [Required(ErrorMessage = " Salary Required")]
-
         public double Salary { get; set; }
 
 

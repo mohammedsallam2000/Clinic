@@ -6,27 +6,25 @@ namespace UI.Controllers
 {
     public class DoctorController : Controller
     {
+        #region Field 
         private readonly IDoctorRep Doctor;
         private readonly IAppointmentRep appointment;
+        #endregion
 
-        public DoctorController(IDoctorRep Doctor,IAppointmentRep appointment)
+        #region Ctor 
+        public DoctorController(IDoctorRep Doctor, IAppointmentRep appointment)
         {
-
             this.Doctor = Doctor;
             this.appointment = appointment;
         }
+        #endregion
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-
+        #region Create New Doctor 
         public IActionResult Create()
         {
-
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(DoctorViewModel doc)
         {
@@ -39,12 +37,11 @@ namespace UI.Controllers
                 }
                 return View();
             }
-
-
             return View();
-
         }
+        #endregion
 
+        #region Edit Doctor
         public async Task<IActionResult> Edit(int id)
         {
             var Data = await Doctor.GetByID(id);
@@ -56,22 +53,18 @@ namespace UI.Controllers
             await Doctor.Edit(doc);
             return RedirectToAction("ViewDoctor", "Doctor", new { id = doc.Id });
         }
-      
+        #endregion
 
-        //public IActionResult Delete(int id)
-        //{
-        //    var DocData = Doctor.GetAll();
-        //    ViewBag.DoctorList = Doctor.GetAll();
-        //    return View();
-        //}
+        #region Delete Doctor
         [HttpPost]
         public async Task<JsonResult> Delete(int id)
         {
             var data = await Doctor.Delete(id);
             return Json(data);
         }
+        #endregion
 
-
+        #region Get All Doctors
         public IActionResult GetAllDoctor(int id)
         {
             var DocData = Doctor.GetAll();
@@ -81,12 +74,17 @@ namespace UI.Controllers
 
             return View();
         }
+        #endregion
 
+        #region Doctor Details (Profile)
         public async Task<IActionResult> Details(int id)
         {
             var getDoc = await Doctor.GetByID(id);
             return View(getDoc);
         }
+        #endregion
+
+        #region Validate SSN
         [AcceptVerbs("GET", "POST")]
         public async Task<IActionResult> SSNUssed(string ssn)
         {
@@ -95,17 +93,19 @@ namespace UI.Controllers
             {
                 return Json($"SSN:  {ssn} is already in use.");
             }
-
             return Json(true);
         }
+        #endregion
 
+        #region Get Doctor Appointments Date Range
         // Ajax
         [HttpPost]
         public JsonResult GetDoctorAppointmentsDateRange(int DoctorId, DateTime StartDate, DateTime EndDate)
         {
-            var DoctorAppointmentsDateRangeData = appointment.GetDoctorAppointmentsDateRange(DoctorId, StartDate,EndDate);
+            var DoctorAppointmentsDateRangeData = appointment.GetDoctorAppointmentsDateRange(DoctorId, StartDate, EndDate);
             return Json(DoctorAppointmentsDateRangeData);
         }
+        #endregion
 
     }
 }

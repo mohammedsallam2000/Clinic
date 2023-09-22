@@ -1,4 +1,5 @@
-﻿using Clinic.Models;
+﻿using BLL.Interface;
+using Clinic.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,11 +7,11 @@ namespace Clinic.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IDashboardRep dash;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IDashboardRep dash)
         {
-            _logger = logger;
+            this.dash = dash;
         }
 
         public IActionResult Index()
@@ -27,6 +28,15 @@ namespace Clinic.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+        // Ajax
+        [HttpGet]
+        public JsonResult Chart()
+        {
+            var ChartData = dash.GetAll();
+            return Json(ChartData);
         }
     }
 }
