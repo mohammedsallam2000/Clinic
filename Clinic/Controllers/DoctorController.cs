@@ -7,10 +7,13 @@ namespace UI.Controllers
     public class DoctorController : Controller
     {
         private readonly IDoctorRep Doctor;
-        public DoctorController(IDoctorRep Doctor)
+        private readonly IAppointmentRep appointment;
+
+        public DoctorController(IDoctorRep Doctor,IAppointmentRep appointment)
         {
 
             this.Doctor = Doctor;
+            this.appointment = appointment;
         }
 
         public IActionResult Index()
@@ -94,6 +97,14 @@ namespace UI.Controllers
             }
 
             return Json(true);
+        }
+
+        // Ajax
+        [HttpPost]
+        public JsonResult GetDoctorAppointmentsDateRange(int DoctorId, DateTime StartDate, DateTime EndDate)
+        {
+            var DoctorAppointmentsDateRangeData = appointment.GetDoctorAppointmentsDateRange(DoctorId, StartDate,EndDate);
+            return Json(DoctorAppointmentsDateRangeData);
         }
 
     }

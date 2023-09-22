@@ -47,6 +47,8 @@ namespace BLL.Models
        public IFormFile? PhotoUrl { get; set; }
         public string? Photo { get; set; }
 
+        public DateTime AppointmentSartDate { get; set; }
+        public DateTime AppointmentEndDate { get; set; }
 
         [Required(ErrorMessage = " Salary Required")]
 

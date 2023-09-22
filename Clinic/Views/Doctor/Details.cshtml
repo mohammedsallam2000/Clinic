@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "/Views/Shared/Layout/MainLayout.cshtml";
+
 }
 
 @inject BLL.Interface.IAppointmentRep app
@@ -185,15 +187,19 @@
                                             <div class="form-group row">
                                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Start Date</label>
                                                 <div class="col-sm-10">
-                                                    <input type="date" asp-for="Name" class="form-control" id="inputEmail3" placeholder="Enter Start Date">
+                                                    <input type="date" asp-for="AppointmentSartDate" class="form-control AppointmentDateRange" id="startDate" placeholder="Enter Start Date">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="inputEmail3" class="col-sm-2 col-form-label">End Date</label>
                                                 <div class="col-sm-10">
-                                                    <input type="date" asp-for="Name" class="form-control" id="inputEmail3" placeholder="End Start Date">
+                                                    <input type="date" asp-for="AppointmentEndDate" class="form-control AppointmentDateRange" id="endDate" placeholder="Enter End Date">
                                                 </div>
                                             </div>
+                                        </div>
+                                        <input type="hidden" id="doctorId"  asp-for="Id" />
+                                        <div class="card-footer" style="text-align:center">
+                                        <button class="btn btn-info" id="filter">Filter</button>
                                         </div>
                                         <!-- /.card-body -->
                                         @*<div class="card-footer" style="text-align:center">
@@ -216,41 +222,15 @@
                                         <table id="example1" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th class="numbers">#</th>
+       
                                                     <th>Patient Name</th>
                                                     <th>Date And Time</th>
-                                                    <th>Actions</th>
+                                        
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="table_data">
 
-                                                @{
-                                                    int number2 = 0;
-                                                }
-                                                @foreach (var item in app.GetAllDoctorAppointments(Model.Id))
-                                                {
-                                                    <tr>
-                                                        <th scope="row" class="numbers">
-                                                            <p>@(number2 += 1)</p>
-                                                        </th>
-                                                        <td>
-                                                            <p class="">@item.PatientName</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="">@item.DateAndTime</p>
-                                                        </td>
-                                                        @*<th scope="col" class="w">
-                                                    <p>20/10/22</p>
-                                                    </th>*@
-                                                        <td>
-                                                            <a class="btn btn-info" title="Edit" asp-action="Edit" asp-controller="Appointment" asp-route-id="@item.PatientId">
-                                                                Accept
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                }
-
-
+                                               
 
                                             </tbody>
                                             @*  <tfoot>
@@ -287,3 +267,42 @@
 <!-- /.col -->
 
 <!-- /.col -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/plugins/jquery/jquery.min.js"></script>
+
+<script>
+    $("#filter").click(function () {
+        var DoctorId = $("#doctorId").val();
+        var StartDate = $("#startDate").val();
+        var EndDate = $("#endDate").val();
+        // StartDate != null && EndDate != null && DoctorId != 0
+        if (true) {
+            $.ajax({
+
+                type: "POST",
+                url: "/Doctor/GetDoctorAppointmentsDateRange",
+                data: {
+                    DoctorId: DoctorId,
+                    StartDate: StartDate,
+                    EndDate: EndDate
+                },
+
+                success: function (res) {
+                    var html = '';
+                    $.each(res, function (i, e) {
+                        html += '<tr>';
+                        html += '<td>' + e.patientName + '</td>';
+                        html += '<td>' + e.dateAndTime + '</td></tr>';
+                        
+                    });
+                    $('#table_data').html(html);
+                }
+
+            });
+        }
+
+
+    });
+
+</script>
+
