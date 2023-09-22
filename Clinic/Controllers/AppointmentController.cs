@@ -7,32 +7,26 @@ namespace UI.Controllers
 {
     public class AppointmentController : Controller
     {
+        #region Fields
         private readonly IDoctorRep Doctor;
-
         private readonly IAppointmentRep Reserve;
         private readonly IPatientRep Patient;
+        #endregion
+
+        #region Ctor
         public AppointmentController(IAppointmentRep Reserve, IDoctorRep Doctor, IPatientRep Patient)
         {
             this.Reserve = Reserve;
             this.Doctor = Doctor;
             this.Patient = Patient;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+        #endregion
+
+        #region Create Appointment
         public IActionResult Create()
         {
             ViewBag.PatientIdError = 1;
             return View();
-        }
-        [HttpPost]
-        public JsonResult GetPatintData(string SSN)
-        {
-            //int id = (int)TempData["model"];
-            //TempData["model"] = Patient.GetBySSN(SSN);
-            var data = Patient.GetBySSN(SSN);
-            return Json(data);
         }
 
         [HttpPost]
@@ -62,6 +56,19 @@ namespace UI.Controllers
 
         }
 
+        #endregion
+
+        #region Get Patint Data By SSN
+        [HttpPost]
+        public JsonResult GetPatintData(string SSN)
+        {
+            //int id = (int)TempData["model"];
+            //TempData["model"] = Patient.GetBySSN(SSN);
+            var data = Patient.GetBySSN(SSN);
+            return Json(data);
+        }
+        #endregion
+
         #region Get All Appointments
         public IActionResult GetAllAppointments()
         {
@@ -70,16 +77,14 @@ namespace UI.Controllers
         }
         #endregion
 
-
-
-
-
-        //------------------ajax----------------------------------------------
+        #region Get Doctor By DepartmentID And ShiftId
         [HttpPost]
         public JsonResult GetDoctorByDepartmentID(int DeptId, int ShiftId)
         {
             var doctorData = Doctor.GetAll(DeptId, ShiftId);
             return Json(doctorData);
         }
+        #endregion
+
     }
 }

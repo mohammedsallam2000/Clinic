@@ -18,7 +18,6 @@ namespace DAL.Database
         public DbSet<Department> Departments { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Shift> Shifts { get; set; }
-
         public DbSet<Appointment> Appointments { get; set; }
 
 
