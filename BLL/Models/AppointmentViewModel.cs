@@ -11,6 +11,8 @@ namespace BLL.Models
 {
     public class AppointmentViewModel
     {
+        public int AppointmentId { get; set; }
+
         [Required(ErrorMessage = "DateAndTime is Required")]
         [DataType(DataType.DateTime)]
         [CustomHireDate(ErrorMessage = "StartDate must greater than or equal to Today's Date")]

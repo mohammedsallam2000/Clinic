@@ -4,6 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
+@inject BLL.Interface.IAppointmentRep app
 <!-- Content Wrapper. Contains page content -->
 
     <section class="content-header">
@@ -98,30 +99,191 @@
                     <!-- /.card -->
                 </div>
                 <!-- /.col -->
-                <div class="col-md-9">
-                    <div class="card">
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Appointments</a></li>
-                            </ul>
-                        </div><!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class="active tab-pane" id="activity">
-                                    <!-- Post -->
-                                   
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#AllAppointments" data-toggle="tab">
+                                    All Appointments
+                                </a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#AppointmentsDateRange" data-toggle="tab">Appointments Date Range</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="AllAppointments">
+                                <!--Content-->
+                                <div class="card card-info">
+                                    <div class="card-header">
+                                        <h3 class="card-title">All Appointments</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="numbers">#</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Date And Time</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @{
+                                                    int number = 0;
+                                                }
+                                                @foreach (var item in app.GetAllDoctorAppointments(Model.Id))
+                                                {
+                                                    <tr>
+                                                        <th scope="row" class="numbers">
+                                                            <p>@(number += 1)</p>
+                                                        </th>
+                                                        <td>
+                                                            <p class="">@item.PatientName</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="">@item.DateAndTime</p>
+                                                        </td>
+                                                        @*<th scope="col" class="w">
+                                                    <p>20/10/22</p>
+                                                    </th>*@
+                                                        <td>
+                                                            <a class="btn btn-info" title="Edit" asp-action="Edit" asp-controller="Appointment" asp-route-id="@item.PatientId">
+                                                                Accept
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+
+
+                                            </tbody>
+                                            @*  <tfoot>
+                                            <tr>
+
+                                            </tr>
+                                            </tfoot>*@
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
                                 </div>
-                                <!-- /.tab-pane -->
                             </div>
-                            <!-- /.tab-content -->
-                        </div><!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
+
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="AppointmentsDateRange">
+                                <div class="card card-info">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Date Range</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <!-- form start -->
+                                    <div class="form-horizontal" >
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-2 col-form-label">Start Date</label>
+                                                <div class="col-sm-10">
+                                                    <input type="date" asp-for="Name" class="form-control" id="inputEmail3" placeholder="Enter Start Date">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="inputEmail3" class="col-sm-2 col-form-label">End Date</label>
+                                                <div class="col-sm-10">
+                                                    <input type="date" asp-for="Name" class="form-control" id="inputEmail3" placeholder="End Start Date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        @*<div class="card-footer" style="text-align:center">
+
+                                            <button onclick="history.back()" class="btn btn-secondary">
+                                                <i class="fas fa-angle-double-left"></i> Back
+                                            </button>
+                                            <button type="submit" class="btn btn-info">Create</button>
+                                        </div>*@
+                                        <!-- /.card-footer -->
+                                    </div>
+                                </div>
+
+                                <div class="card card-info">
+                                    <div class="card-header">
+                                        <h3 class="card-title">All Appointments In Date Range</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="numbers">#</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Date And Time</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @{
+                                                    int number2 = 0;
+                                                }
+                                                @foreach (var item in app.GetAllDoctorAppointments(Model.Id))
+                                                {
+                                                    <tr>
+                                                        <th scope="row" class="numbers">
+                                                            <p>@(number2 += 1)</p>
+                                                        </th>
+                                                        <td>
+                                                            <p class="">@item.PatientName</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="">@item.DateAndTime</p>
+                                                        </td>
+                                                        @*<th scope="col" class="w">
+                                                    <p>20/10/22</p>
+                                                    </th>*@
+                                                        <td>
+                                                            <a class="btn btn-info" title="Edit" asp-action="Edit" asp-controller="Appointment" asp-route-id="@item.PatientId">
+                                                                Accept
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+
+
+                                            </tbody>
+                                            @*  <tfoot>
+                                            <tr>
+
+                                            </tr>
+                                            </tfoot>*@
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- /.tab-pane -->
+
+                           
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
                 </div>
+                <!-- /.card -->
+            </div>
                 <!-- /.col -->
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+<!-- /.col -->
 
+<!-- /.col -->

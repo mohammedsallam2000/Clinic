@@ -63,7 +63,25 @@ namespace BLL.Repository
             }
             return list;
         }
+        #endregion
 
+        #region GetAllDoctorAppointments
+
+        public IEnumerable<AppointmentViewModel> GetAllDoctorAppointments(int DoctorId)
+        {
+            List<AppointmentViewModel> list = new List<AppointmentViewModel>();
+            var data = context.Appointments.Where(d => d.DateAndTime.Date == DateTime.Now.Date && d.State == false && d.DoctorId == context.Doctors.Where(x => x.DoctorId == DoctorId).Select(x => x.DoctorId).FirstOrDefault());
+            foreach (var item in data)
+            {
+                AppointmentViewModel obj = new AppointmentViewModel();
+                obj.AppointmentId=item.AppointmentId;
+                obj.PatientId = item.PatientId;
+                obj.PatientName = context.Patients.Where(x => x.PatientId == item.PatientId).Select(x => x.Name).FirstOrDefault();
+                obj.DateAndTime = item.DateAndTime;
+                list.Add(obj);
+            }
+            return list;
+        }
 
         #endregion
 
