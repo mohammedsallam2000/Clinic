@@ -92,12 +92,16 @@
             $.each(res, function (i, e) {
                 xValues[counter] = e.doctorName;
                 yValues[counter] = e.patientCount;
-                if (yValues[counter]>=2) {
-                    barColors[counter] = "green";
+                if (yValues[counter] <= 1) {
+                    barColors[counter] = "blue";
+
+                }
+                else if (yValues[counter] > 1 && yValues[counter] <= 2) {
+                    barColors[counter] = "orange";
 
                 }
                 else{
-                    barColors[counter] = "blue";
+                    barColors[counter] = "green";
 
                 }
                 counter = counter + 1;           
