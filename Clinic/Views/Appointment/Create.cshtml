@@ -39,13 +39,19 @@
 </div>
 <!-- Horizontal Form -->
 <div class="card card-info">
+   
     <div class="card-header">
         <h3 class="card-title">Create Appointment</h3>
     </div>
     <!-- /.card-header -->
     <!-- form start -->
     <form class="form-horizontal" asp-controller="Appointment" asp-action="Create" enctype="multipart/form-data">
+        
         <div class="card-body">
+            <a class="btn btn-primary" title="NewPatient" asp-action="Create" asp-controller="Patient">
+                New Patient
+            </a>
+            <br /><br />
             <!--Patient SSN or name-->
             <input type="hidden" id="btnId" asp-for="PatientId" />
 
@@ -73,9 +79,11 @@
                     <input asp-for="DateAndTime" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime" placeholder="Enter Date And Time"/>
                     <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+
                     </div>
                 </div>
-                <span class="text-danger" asp-validation-for="DoctorId"></span>
+                <span class="text-danger" asp-validation-for="DateAndTime"></span>
+
             </div>
             <!--Department-->
             <div class="form-group row">
@@ -119,8 +127,9 @@
                             id="slctDoctor" asp-for="DoctorId">
                         <option value="">- doctor -</option>
                     </select>
+                    <span class="text-danger" asp-validation-for="DoctorId"></span>
                 </div>
-                <span class="text-danger" asp-validation-for="DoctorId"></span>
+              
                 </div>
             </div>
 
